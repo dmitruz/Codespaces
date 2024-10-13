@@ -1,8 +1,8 @@
-// describe('template spec', () => {
-//   it('passes', () => {
-//     cy.visit('https://example.cypress.io')
-//   })
-// })
+describe('template spec', () => {
+  it('passes', () => {
+    cy.visit('https://example.cypress.io')
+  })
+})
 
 
 // Task 1
@@ -75,3 +75,68 @@ describe('Test Actions on Canvas and Button', () => {
     cy.get('#action-canvas').click('bottomRight');
   });
 });
+
+// Test for calculator functionality:
+
+
+describe('Calculator functionality', () => {
+    beforeEach(() => {
+        // Visit the page where the calculator is hosted
+        cy.visit('http://192.168.239.83:5500/index.html');  // Replace with actual path
+    });
+
+    it('Performs addition correctly', () => {
+        // Click buttons for 7 + 3 =
+        cy.get('button').contains('7').click();
+        cy.get('button').contains('+').click();
+        cy.get('button').contains('3').click();
+        cy.get('button').contains('=').click();
+
+        // Assert the result is 10
+        cy.get('#result').should('have.text', '10');
+    });
+
+    it('Performs subtraction correctly', () => {
+        // Click buttons for 9 - 5 =
+        cy.get('button').contains('9').click();
+        cy.get('button').contains('−').click();
+        cy.get('button').contains('5').click();
+        cy.get('button').contains('=').click();
+
+        // Assert the result is 4
+        cy.get('#result').should('have.text', '4');
+    });
+
+    it('Performs multiplication correctly', () => {
+        // Click buttons for 4 * 6 =
+        cy.get('button').contains('4').click();
+        cy.get('button').contains('×').click();
+        cy.get('button').contains('6').click();
+        cy.get('button').contains('=').click();
+
+        // Assert the result is 24
+        cy.get('#result').should('have.text', '24');
+    });
+
+    it('Performs division correctly', () => {
+        // Click buttons for 8 / 2 =
+        cy.get('button').contains('8').click();
+        cy.get('button').contains('÷').click();
+        cy.get('button').contains('2').click();
+        cy.get('button').contains('=').click();
+
+        // Assert the result is 4
+        cy.get('#result').should('have.text', '4');
+    });
+
+    it('Clears the input correctly', () => {
+        // Enter some numbers, then clear
+        cy.get('button').contains('7').click();
+        cy.get('button').contains('C').click();
+
+        // Assert the result is empty
+        cy.get('#result').should('have.text', '');
+    });
+});
+
+// link to my recorded video https://www.loom.com/share/4114d0cc167347e49ffd6b3cab47de86
