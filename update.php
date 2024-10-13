@@ -52,3 +52,23 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' )
   } 
 }
 ?>
+<form action="update.php" method="post" enctype="multipart/form-data">
+  <!-- input box for item name  -->
+  <label for="name">Item Name:</label>
+  <input type="text" id="item_name" class="form-control" name="item_name" required value="<?php echo $current_item_name; ?>">
+
+  <!-- input box for item description -->  
+  <label for="description">Description:</label>
+  <textarea id="item_desc" class="form-control" name="item_desc" required><?php echo $current_item_desc; ?></textarea>
+
+  <!-- file upload for image -->
+  <label for="image">Image:</label>
+  <input type="file" id="item_img" class="form-control" name="item_img">
+
+  <!-- input box for item price -->
+  <label for="price">Price:</label>
+  <input type="number" id="item_price" class="form-control" name="item_price" min="0" step="0.01" required value="<?php echo $current_item_price; ?>"><br>
+
+  <!-- submit button -->
+  <input type="submit" class="btn btn-dark" value="Update">
+</form>
