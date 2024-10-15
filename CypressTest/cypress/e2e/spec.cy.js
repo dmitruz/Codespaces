@@ -140,3 +140,98 @@ describe('Calculator functionality', () => {
 });
 
 // link to my recorded video https://www.loom.com/share/4114d0cc167347e49ffd6b3cab47de86
+
+// _-------------------------------------------------------------------------------------------------
+
+// Test for Dcissor, Rock and Paper game:
+
+// 1. Varify that elements are renderd correctly:
+describe('Rock, Paper, Scissors Game', () => {
+  beforeEach(() => {
+    cy.visit('http://192.168.239.83:5500/testingTechnologies/index.html'); 
+  });
+
+  it('should render game buttons and result elements', () => {
+    cy.get('#rock').should('exist');
+    cy.get('#paper').should('exist');
+    cy.get('#scissors').should('exist');
+    cy.get('#user-option').should('exist');
+    cy.get('#computer-option').should('exist');
+    cy.get('#result').should('exist');
+  });
+});
+
+// 2  Test button clicks and corresponding display changes
+
+describe('Player choice should be displayed', () => {
+  it('should display the correct choice when Rock is clicked', () => {
+    cy.get('#rock').click();
+    cy.get('#user-option').should('have.text', 'Rock');
+    cy.get('#computer-option').invoke('text').should('match', /Rock|Paper|Scissors/);
+  });
+
+  it('should display the correct choice when Paper is clicked', () => {
+    cy.get('#paper').click();
+    cy.get('#user-option').should('have.text', 'Paper');
+    cy.get('#computer-option').invoke('text').should('match', /Rock|Paper|Scissors/);
+  });
+
+  it('should display the correct choice when Scissors is clicked', () => {
+    cy.get('#scissors').click();
+    cy.get('#user-option').should('have.text', 'Scissors');
+    cy.get('#computer-option').invoke('text').should('match', /Rock|Paper|Scissors/);
+  });
+});
+
+// 3 Test game outcomes
+
+describe('Game outcomes should be correct', () => {
+  it('should display "You win!" when user chooses Rock and computer chooses Scissors', () => {
+    cy.get('#rock').click();
+    cy.get('#computer-option').then(($computerOption) => {
+      if ($computerOption.text() === 'Scissors') {
+        cy.get('#result').should('have.text', 'You win!');
+      }
+    });
+  });
+
+  it('should display "You lose!" when user chooses Rock and computer chooses Paper', () => {
+    cy.get('#rock').click();
+    cy.get('#computer-option').then(($computerOption) => {
+      if ($computerOption.text() === 'Paper') {
+        cy.get('#result').should('have.text', 'You lose!');
+      }
+    });
+  });
+
+  it('should display "It is a tie!" when user and computer choose the same option', () => {
+    cy.get('#rock').click();
+    cy.get('#computer-option').then(($computerOption) => {
+      if ($computerOption.text() === 'Rock') {
+        cy.get('#result').should('have.text', 'It is a tie!');
+      }
+    });
+  });
+});
+
+// 4. Test multiple rounds
+
+describe('Multiple rounds can be played', () => {
+  it('should allow multiple rounds and reset game state', () => {
+    cy.get('#rock').click();
+    cy.get('#result').should('not.be.empty');
+
+    cy.get('#paper').click();
+    cy.get('#user-option').should('have.text', 'Paper');
+    cy.get('#result').should('not.be.empty');
+  });
+});
+
+// 5. Edge case testing
+
+describe('Edge case tests', () => {
+  it('should always have valid computer options', () => {
+    cy.get('#rock').click();
+    cy.get('#computer-option').invoke('text').should('match', /Rock|Paper|Scissors/);
+  });
+});
